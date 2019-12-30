@@ -381,9 +381,11 @@ describe('operationArgsParser', () => {
         {
           name,
           in: 'query',
-          style: 'deepObject',
-          explode: true,
-          schema,
+          content: {
+            'application/json': {
+              schema,
+            },
+          },
         },
       ]);
     }

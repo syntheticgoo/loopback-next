@@ -65,8 +65,18 @@ export class Validator {
   isAbsent(value: any) {
     if (value === '' || value === undefined) return true;
 
+    const spec: ParameterObject = this.ctx.parameterSpec;
     const schema: SchemaObject = this.ctx.parameterSpec.schema ?? {};
     if (schema.type === 'object' && value === 'null') return true;
+
+    // if parameter is a query param and an object, validate for null values
+    if (
+      !spec.schema &&
+      spec.in === 'query' &&
+      spec.content &&
+      (value === 'null' || value === null)
+    )
+      return true;
 
     return false;
   }

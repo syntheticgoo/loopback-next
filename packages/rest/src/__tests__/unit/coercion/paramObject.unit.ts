@@ -11,12 +11,14 @@ import {test} from './utils';
 const OPTIONAL_ANY_OBJECT: ParameterObject = {
   in: 'query',
   name: 'aparameter',
-  schema: {
-    type: 'object',
-    additionalProperties: true,
+  content: {
+    'application/json': {
+      schema: {
+        type: 'object',
+        additionalProperties: true,
+      },
+    },
   },
-  style: 'deepObject',
-  explode: true,
 };
 
 const REQUIRED_ANY_OBJECT = {
