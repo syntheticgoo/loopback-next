@@ -71,12 +71,7 @@ export function transactionSuite(
           tx = undefined;
         });
         afterEach(async () => {
-          // FIXME: replace tx.connection with tx.isActive when it becomes
-          // available
-          // see https://github.com/strongloop/loopback-next/issues/3471
-          tx = setTransactionToUndefined(tx);
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          if (tx !== undefined && (tx as any).connection) {
+          if (tx?.isActive()) {
             await tx.rollback();
           }
         });
@@ -174,17 +169,6 @@ export function transactionSuite(
           );
           expect(toJSON(created)).to.deepEqual(toJSON(foundOutsideTransaction));
         });
-
-        // temporary workaround for "Release called on client which has
-        // already been released to the pool." for PostgreSQL until
-        // tx.isActive is available
-        //FIXME: remove this once tx.isActive becomes available
-        // see https://github.com/strongloop/loopback-next/issues/3471
-        function setTransactionToUndefined(t: Transaction | undefined) {
-          return ds.connector && ds.connector.name === 'postgresql'
-            ? undefined
-            : t;
-        }
       });
     },
   );
