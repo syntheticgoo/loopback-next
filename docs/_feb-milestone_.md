@@ -41,6 +41,20 @@
 
 ### Stretch Goals
 
+- CI
+
+  - [ ] [CI] Postgresql downstream tests failed
+        https://github.com/strongloop/loopback-datasource-juggler/issues/1816
+  - [ ] [DashDB] Run shared tests from both v3 and v4 of juggler
+        https://github.com/strongloop/loopback-connector-dashdb/issues/79
+
+- Bug fixes
+
+  - [ ] Authorizer triggers twice #4351
+  - [ ] Belongs-To relation tries to resolve for foreign key NULL
+  - [ ] docs: API docs "edit this page" links to an invalid GitHub URL
+  - [ ] Log extension is not printing any logs #2173
+
 - Migration guide between LB3 and LB4 MVP #453
 
   - [ ] Which official LB3 components are not planned in LB4 #3956
@@ -49,8 +63,10 @@
 
   - [ ] Sugar decorators for Filter and Where parameters #1749
 
-- CI
-  - [ ] [CI] Postgresql downstream tests failed
-        https://github.com/strongloop/loopback-datasource-juggler/issues/1816
-  - [DashDB] Run shared tests from both v3 and v4 of juggler
-    https://github.com/strongloop/loopback-connector-dashdb/issues/79
+### "Help wanted" and "Good first issue"
+
+_Community contributors: Want to contribute but don't know where to start? Here
+is our wish list for the next month:_
+
+- [ ] Add bearer auth scheme as the default security scheme #4386
+- [ ] https://github.com/strongloop/loopback-next/issues/4380
