@@ -300,7 +300,7 @@ describe('operationArgsParser', () => {
     expect(args).to.eql(['<html><body><h1>Hello</h1></body></html>']);
   });
 
-  context('in:query style:deepObject', () => {
+  context('in:query content:application/json', () => {
     it('parses JSON-encoded string value', async () => {
       const req = givenRequest({
         url: '/?value={"key":"value"}',
@@ -344,6 +344,19 @@ describe('operationArgsParser', () => {
           },
         }),
       );
+    });
+
+    it('parses url-encoded complex json object', async () => {
+      const req = givenRequest({
+        url: '/?filter=%7B"include"%3A%5B%7B"relation"%3A"todoList"%7D%5D%7D',
+      });
+
+      const spec = givenOperationWithObjectParameter('filter');
+      const route = givenResolvedRoute(spec);
+
+      const args = await parseOperationArgs(req, route, requestBodyParser);
+
+      expect(args).to.eql([{include: [{relation: 'todoList'}]}]);
     });
 
     it('rejects array values encoded as JSON', async () => {

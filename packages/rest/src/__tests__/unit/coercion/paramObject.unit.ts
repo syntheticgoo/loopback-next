@@ -35,6 +35,9 @@ describe('coerce object param - required', function() {
     test(REQUIRED_ANY_OBJECT, {key: 'undefined'}, {key: 'undefined'});
     test(REQUIRED_ANY_OBJECT, {key: 'null'}, {key: 'null'});
     test(REQUIRED_ANY_OBJECT, {key: 'text'}, {key: 'text'});
+    test(REQUIRED_ANY_OBJECT, '{"include": [{ "relation" : "todoList" }]}', {
+      include: [{relation: 'todoList'}],
+    });
   });
 
   context('empty values trigger ERROR_BAD_REQUEST', () => {

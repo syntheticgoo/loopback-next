@@ -67,16 +67,23 @@ export class Validator {
 
     const spec: ParameterObject = this.ctx.parameterSpec;
     const schema: SchemaObject = this.ctx.parameterSpec.schema ?? {};
-    if (schema.type === 'object' && value === 'null') return true;
+    const valueIsNull = value === 'null' || value === null;
 
-    // if parameter is a query param and an object, validate for null values
-    if (
-      !spec.schema &&
-      spec.in === 'query' &&
-      spec.content &&
-      (value === 'null' || value === null)
-    )
-      return true;
+    // if parameter spec contains schema object, check if supplied value is NULL
+    if (spec.schema) {
+      if (schema.type === 'object' && valueIsNull) return true;
+    } else {
+      // for url encoded Json object query parameters, schema is defined under content['application/json']
+      if (
+        spec.in === 'query' &&
+        spec.content &&
+        spec.content['application/json'] &&
+        spec.content['application/json'].schema
+      ) {
+        // check for NULL values in url encoded Json objects
+        if (valueIsNull) return true;
+      }
+    }
 
     return false;
   }

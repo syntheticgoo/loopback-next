@@ -34,9 +34,9 @@ export function coerceParameter(
 ) {
   let schema = spec.schema;
 
-  if (!schema && spec.content) {
-    const content = spec.content;
-    const jsonSpec = content['application/json'];
+  // If a query parameter is a url encoded Json object, the schema is defined under content['application/json']
+  if (!schema && spec.in === 'query' && spec.content) {
+    const jsonSpec = spec.content['application/json'];
     schema = jsonSpec.schema;
   }
 
@@ -179,9 +179,9 @@ function parseJsonIfNeeded(
 ): string | object | undefined {
   if (typeof data !== 'string') return data;
 
-  if (spec.in !== 'query' || (spec.style !== 'deepObject' && !spec.content)) {
+  if (spec.in !== 'query' || (spec.in === 'query' && !spec.content)) {
     debug(
-      'Skipping JSON.parse, argument %s is not in:query style:deepObject',
+      'Skipping JSON.parse, argument %s is not a url encoded json object query parameter (since content field is missing in parameter schema)',
       spec.name,
     );
     return data;
